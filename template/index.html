@@ -1,1 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MedAssist | Premium AI Health Assistant</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      /* Primary Medical Color Palette */
+      --primary: #2563eb;
+      --primary-light: #3b82f6;
+      --primary-dark: #1d4ed8;
+      --secondary: #10b981;
+      --secondary-light: #34d399;
+      --accent: #8b5cf6;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #0ea5e9;
+      
+      /* Backgrounds */
+      --light-bg: #f8fafc;
+      --dark-bg: #0f172a;
+      --card-bg: rgba(255, 255, 255, 0.9);
+      --card-bg-dark: rgba(30, 41, 59, 0.9);
+      
+      /* Text Colors */
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --text-light: #f1f5f9;
+      
+      /* Borders */
+      --border-light: rgba(226, 232, 240, 0.8);
+      --border-dark: rgba(51, 65, 85, 0.8);
+      
+      /* UI Elements */
+      --bubble-radius: 24px;
+      --font: 'Inter', 'Poppins', sans-serif;
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      
+      /* Glassmorphism */
+      --glass-bg: rgba(255, 255, 255, 0.25);
+      --glass-border: rgba(255, 255, 255, 0.18);
+      --glass-dark-bg: rgba(30, 41, 59, 0.4);
+      --glass-dark-border: rgba(15, 23, 42, 0.3);
+      
+      /* Animation Durations */
+      --transition-fast: 0.2s;
+      --transition-normal: 0.3s;
+      --transition-slow: 0.5s;
+    }
 
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font);
+      background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+      color: var(--text-primary);
+      transition: background-color var(--transition-slow) ease;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.3) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.2) 0%, transparent 20%);
+      z-index: -1;
+    }
+
+    body.dark {
+      background: linear-gradient(135deg, #0c4a6e, #1e3a8a);
+      color: var(--text-light);
+    }
+
+    body.dark::before {
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(30, 41, 59, 0.3) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(15, 23, 42, 0.2) 0%, transparent 20%);
+    }
+
+    /* Custom Logo Animation */
+    @keyframes logoPulse {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 99, 235, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+    }
+
+    @keyframes logoRotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes logoShine {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, var(--primary), #60a5fa);
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: var(--shadow-xl);
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 70%);
+      transform: rotate(30deg);
+      animation: logoRotate 20s linear infinite;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 2.8rem;
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      box-shadow: 
+        0 10px 25px rgba(37, 99, 235, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, white, #e0f2fe);
+      animation: logoPulse 3s infinite;
+    }
+
+    .logo::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+      animation: logoShine 2s infinite;
+    }
+
+    .header-text h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 0.2rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: linear-gradient(to right, white, #e0f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .header-text p {
+      font-weight: 400;
+      opacity: 0.95;
+      font-size: 1.2rem;
+      letter-spacing: 0.5px;
+    }
+
+    /* Top Bar Styles */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      box-shadow: var(--shadow-lg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      margin: 1.5rem auto;
+      max-width: 1400px;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      position: relative;
+      overflow: hidden;
+      transition: all var(--transition-normal) ease;
+    }
+
+    body.dark .top-bar {
+      background: var(--glass-dark-bg);
+      border: 1px solid var(--glass-dark-border);
+    }
+
+    .top-bar::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      z-index: -1;
+    }
+
+    .top-bar-controls {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .control-group label {
+      font-weight: 600;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    body.dark .control-group label {
+      color: var(--text-light);
+    }
+
+    /* Segmented Control */
+    .segmented-control {
+      display: inline-flex;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--border-light);
+    }
+
+    body.dark .segmented-control {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid var(--border-dark);
+    }
+
+    .segmented-control button {
+      background: none;
+      border: none;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      transition: all var(--transition-fast) ease;
+      position: relative;
+      z-index: 1;
+      cursor: pointer;
+    }
+
+    body.dark .segmented-control button {
+      color: var(--text-light);
+    }
+
+    .segmented-control button:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    body.dark .segmented-control button:hover {
+      background: rgba(30, 41, 59, 0.3);
+    }
+
+    .segmented-control button.active {
+      background: rgba(37, 99, 235, 0.15);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    body.dark .segmented-control button.active {
+      background: rgba(37, 99, 235, 0.25);
+      color: #93c5fd;
+    }
+
+    .segmented-control button::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      z-index: -1;
+      transition: all var(--transition-fast) ease;
+    }
+
+    body.dark .segmented-control button::before {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.1), transparent);
+    }
+
+    .segmented-control button.active::before {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+    }
+
+    body.dark .segmented-control button.active::before {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.2), transparent);
+    }
+
+    .segmented-control button:first-child {
+      border-top-left-radius: 12px;
+      border-bottom-left-radius: 12px;
+    }
+
+    .segmented-control button:last-child {
+      border-top-right-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+
+    .segmented-control button + button {
+      border-left: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    body.dark .segmented-control button + button {
+      border-left: 1px solid rgba(51, 65, 85, 0.5);
+    }
+
+    /* Premium Buttons */
+    .btn {
+      position: relative;
+      overflow: hidden;
+      border: none;
+      border-radius: 12px;
+      padding: 0.75rem 1.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all var(--transition-normal) cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      box-shadow: var(--shadow-md);
+      transform: translateY(0);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.4), transparent);
+      opacity: 0;
+      transition: opacity var(--transition-normal) ease;
+    }
+
+    .btn:hover::before {
+      opacity: 1;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #0da271, var(--secondary));
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--primary);
+      color: var(--primary);
+    }
+
+    body.dark .btn-outline {
+      border: 2px solid #93c5fd;
+      color: #93c5fd;
+    }
+
+    .btn-outline:hover {
+      background: rgba(37, 99, 235, 0.1);
+    }
+
+    /* Main Content */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto 2rem;
+      padding: 0 1.5rem;
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      height: 75vh;
+      background: var(--glass-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow-xl);
+      border: 1px solid var(--glass-border);
+      position: relative;
+      transition: all var(--transition-normal) ease;
+    }
+
+    body.dark .chat-container {
+      background: var(--glass-dark-bg);
+      border: 1px solid var(--glass-dark-border);
+    }
+
+    .chat-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+      z-index: -1;
+    }
+
+    .chat-header {
+      padding: 1.5rem 2rem;
+      border-bottom: 1px solid var(--border-light);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.3);
+      transition: all var(--transition-normal) ease;
+    }
+
+    body.dark .chat-header {
+      border-color: var(--border-dark);
+      background: rgba(30, 41, 59, 0.3);
+    }
+
+    .chat-header h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .chat-header h2 i {
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.1);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-normal) ease;
+    }
+
+    .chat-header h2 i:hover {
+      transform: rotate(10deg);
+    }
+
+    .chat-status {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      70% { box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+    }
+
+    .chat-box {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Message Styles */
+    .msg {
+      display: flex;
+      flex-direction: column;
+      max-width: 85%;
+      animation: fadeIn 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg.user {
+      align-self: flex-end;
+    }
+
+    .msg.bot {
+      align-self: flex-start;
+    }
+
+    .msg-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .msg.user .msg-header {
+      align-self: flex-end;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.85rem;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-normal) ease;
+    }
+
+    .avatar:hover {
+      transform: scale(1.1);
+    }
+
+    .user-avatar {
+      background: linear-gradient(135deg, var(--primary), var(--primary-light));
+      color: white;
+    }
+
+    .bot-avatar {
+      background: linear-gradient(135deg, var(--secondary), var(--secondary-light));
+      color: white;
+    }
+
+    .msg-content {
+      padding: 1.25rem 1.5rem;
+      border-radius: var(--bubble-radius);
+      position: relative;
+      box-shadow: var(--shadow-md);
+      line-height: 1.6;
+      font-size: 1.05rem;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all var(--transition-normal) ease;
+    }
+
+    .msg.user .msg-content {
+      background: linear-gradient(135deg, rgba(219, 234, 254, 0.9), rgba(219, 234, 254, 0.7));
+      color: #1e3a8a;
+      border-bottom-right-radius: 8px;
+    }
+
+    .msg.bot .msg-content {
+      background: linear-gradient(135deg, rgba(209, 250, 229, 0.9), rgba(209, 250, 229, 0.7));
+      color: #065f46;
+      border-bottom-left-radius: 8px;
+    }
+
+    body.dark .msg.user .msg-content {
+      background: linear-gradient(135deg, rgba(30, 58, 138, 0.9), rgba(30, 58, 138, 0.7));
+      color: #bfdbfe;
+    }
+
+    body.dark .msg.bot .msg-content {
+      background: linear-gradient(135deg, rgba(6, 95, 70, 0.9), rgba(6, 95, 70, 0.7));
+      color: #a7f3d0;
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      background: rgba(241, 245, 249, 0.9);
+      border-radius: var(--bubble-radius);
+      border-bottom-left-radius: 8px;
+      width: fit-content;
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: var(--shadow-md);
+    }
+
+    body.dark .typing-indicator {
+      background: rgba(51, 65, 85, 0.9);
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 0.35rem;
+    }
+
+    .typing-dot {
+      width: 10px;
+      height: 10px;
+      background-color: #94a3b8;
+      border-radius: 50%;
+      animation: typing 1.4s infinite ease-in-out;
+      box-shadow: var(--shadow-sm);
+    }
+
+    body.dark .typing-dot {
+      background-color: #cbd5e1;
+    }
+
+    .typing-dot:nth-child(1) { animation-delay: 0s; }
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-7px); }
+    }
+
+    /* Input Area */
+    .input-area {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border-light);
+      background: rgba(255, 255, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      transition: all var(--transition-normal) ease;
+    }
+
+    body.dark .input-area {
+      border-color: var(--border-dark);
+      background: rgba(30, 41, 59, 0.3);
+    }
+
+    .form-area {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .form-area input[type="text"] {
+      flex: 1;
+      padding: 1rem 1.5rem;
+      font-size: 1.05rem;
+      border-radius: 50px;
+      border: 1px solid rgba(226, 232, 240, 0.7);
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--text-primary);
+      transition: all var(--transition-normal) ease;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      font-family: 'Inter', sans-serif;
+    }
+
+    body.dark .form-area input[type="text"] {
+      border: 1px solid rgba(51, 65, 85, 0.7);
+      background: rgba(30, 41, 59, 0.7);
+      color: var(--text-light);
+    }
+
+    .form-area input[type="text"]:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(59, 130, 235, 0.3);
+    }
+
+    .form-area .btn {
+      padding: 0.85rem 1.75rem;
+      font-size: 1.05rem;
+    }
+
+    .quick-actions {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      transition: all var(--transition-normal) ease;
+    }
+
+    body.dark .quick-actions {
+      color: #94a3b8;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      margin-top: 1rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      transition: all var(--transition-normal) ease;
+    }
+
+    body.dark footer {
+      color: #94a3b8;
+    }
+
+    footer p {
+      margin: 0.5rem 0;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 992px) {
+      .header-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+      }
+      
+      .top-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .top-bar-controls {
+        justify-content: center;
+      }
+      
+      .msg {
+        max-width: 90%;
+      }
+      
+      .form-area {
+        flex-direction: column;
+      }
+      
+      .file-upload-container {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      header {
+        padding: 1.25rem 1.5rem;
+      }
+      
+      .header-text h1 {
+        font-size: 2rem;
+      }
+      
+      .chat-container {
+        height: 70vh;
+      }
+      
+      .msg {
+        max-width: 95%;
+      }
+      
+      .chat-box {
+        padding: 1rem;
+      }
+      
+      .chat-header, .input-area {
+        padding: 1rem 1.25rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header-text h1 {
+        font-size: 1.8rem;
+      }
+      
+      .header-text p {
+        font-size: 1rem;
+      }
+      
+      .logo {
+        width: 60px;
+        height: 60px;
+        font-size: 2.2rem;
+      }
+      
+      .btn {
+        padding: 0.65rem 1.25rem;
+        font-size: 0.95rem;
+      }
+      
+      .form-area .btn {
+        padding: 0.75rem 1.5rem;
+      }
+    }
+
+    /* Scrollbar Styling */
+    .chat-box::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-box::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+
+    body.dark .chat-box::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.2);
+    }
+
+    .chat-box::-webkit-scrollbar-thumb {
+      background: rgba(37, 99, 235, 0.3);
+      border-radius: 4px;
+    }
+
+    body.dark .chat-box::-webkit-scrollbar-thumb {
+      background: rgba(37, 99, 235, 0.5);
+    }
+
+    .chat-box::-webkit-scrollbar-thumb:hover {
+      background: rgba(37, 99, 235, 0.5);
+    }
+
+    body.dark .chat-box::-webkit-scrollbar-thumb:hover {
+      background: rgba(37, 99, 235, 0.7);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-content">
+      <div class="logo-container">
+        <div class="logo">
+          <i class="fas fa-heart-pulse"></i>
+        </div>
+        <div class="header-text">
+          <h1>MedAssist</h1>
+          <p>Premium AI-Powered Health Assistant</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-outline toggle-dark" onclick="toggleDarkMode()">
+          <i class="fas fa-moon"></i> Dark Mode
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="top-bar">
+    <div class="top-bar-controls">
+      <div class="control-group">
+        <label for="model"><i class="fas fa-robot"></i> AI Model:</label>
+        <div class="segmented-control">
+          <button data-model="openai" class="active">OpenAI GPT-4</button>
+          <button data-model="groq">Groq LLaMA 3</button>
+        </div>
+      </div>
+    </div>
+    <div class="top-bar-controls">
+      <button class="btn btn-secondary" onclick="exportChat()">
+        <i class="fas fa-file-export"></i> Export Chat
+      </button>
+      <button class="btn btn-outline" onclick="clearChat()">
+        <i class="fas fa-trash-alt"></i> Clear Chat
+      </button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="chat-container">
+      <div class="chat-header">
+        <h2><i class="fas fa-comments-medical"></i> Health Consultation</h2>
+        <div class="chat-status">
+          <span class="status-indicator"></span> MedAssist Online
+        </div>
+      </div>
+      <div class="chat-box" id="chatbox">
+        <!-- Welcome message -->
+        <div class="msg bot">
+          <div class="msg-header">
+            <div class="avatar bot-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <span>MedAssist AI</span>
+          </div>
+          <div class="msg-content">
+            <p>Hello! I'm your premium AI health assistant. How can I help you today? You can ask about symptoms, medications, or general health advice. For medical emergencies, please contact emergency services immediately.</p>
+          </div>
+        </div>
+      </div>
+      <div class="input-area">
+        <form class="form-area" id="chat-form">
+          <input type="text" id="question" name="question" placeholder="Describe your health concern or question..." required />
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i> Send
+          </button>
+        </form>
+        <div class="quick-actions">
+          <p>Try asking: "What are common cold symptoms?" • "How to manage stress?" • "Explain diabetes type 2"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 MedAssist AI – For educational and informational purposes only</p>
+    <p>This AI assistant does not provide medical advice. Always consult with a qualified healthcare professional for medical concerns.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById("chat-form");
+    const chatbox = document.getElementById("chatbox");
+    const modelButtons = document.querySelectorAll('.segmented-control button[data-model]');
+
+    // Set active model
+    modelButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        modelButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
+
+    function toggleDarkMode() {
+      document.body.classList.toggle("dark");
+      const button = document.querySelector('.toggle-dark');
+      if (document.body.classList.contains("dark")) {
+        button.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+        button.classList.remove('btn-outline');
+        button.classList.add('btn-secondary');
+      } else {
+        button.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+        button.classList.remove('btn-secondary');
+        button.classList.add('btn-outline');
+      }
+    }
+
+    function exportChat() {
+      const messages = document.querySelectorAll(".msg");
+      let content = "MedAssist Chat History\n\n";
+      messages.forEach(msg => {
+        const sender = msg.classList.contains('user') ? 'You' : 'MedAssist AI';
+        const text = msg.querySelector('.msg-content').innerText;
+        content += `${sender}: ${text}\n\n`;
+      });
+      const blob = new Blob([content], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "medassist_chat_history.txt";
+      link.click();
+    }
+
+    function clearChat() {
+      if (confirm("Are you sure you want to clear the chat history?")) {
+        chatbox.innerHTML = '';
+        
+        // Add welcome message
+        const welcomeMsg = document.createElement("div");
+        welcomeMsg.className = "msg bot";
+        welcomeMsg.innerHTML = `
+          <div class="msg-header">
+            <div class="avatar bot-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <span>MedAssist AI</span>
+          </div>
+          <div class="msg-content">
+            <p>Hello! I'm your premium AI health assistant. How can I help you today? You can ask about symptoms, medications, or general health advice. For medical emergencies, please contact emergency services immediately.</p>
+          </div>
+        `;
+        chatbox.appendChild(welcomeMsg);
+      }
+    }
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const question = document.getElementById("question").value.trim();
+      if (!question) return;
+
+      // Add user message
+      const userMsg = document.createElement("div");
+      userMsg.className = "msg user";
+      userMsg.innerHTML = `
+        <div class="msg-header">
+          <span>You</span>
+          <div class="avatar user-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+        </div>
+        <div class="msg-content">
+          <p>${question}</p>
+        </div>
+      `;
+      chatbox.appendChild(userMsg);
+
+      // Add typing indicator
+      const typingIndicator = document.createElement("div");
+      typingIndicator.className = "msg bot";
+      typingIndicator.id = "typing-indicator";
+      typingIndicator.innerHTML = `
+        <div class="msg-header">
+          <div class="avatar bot-avatar">
+            <i class="fas fa-robot"></i>
+          </div>
+          <span>MedAssist AI</span>
+        </div>
+        <div class="typing-indicator">
+          <span>Analyzing your question</span>
+          <div class="typing-dots">
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+            <div class="typing-dot"></div>
+          </div>
+        </div>
+      `;
+      chatbox.appendChild(typingIndicator);
+      chatbox.scrollTop = chatbox.scrollHeight;
+
+      // Prepare form data
+      const formData = new FormData(form);
+      // Add the model selection to form data
+      const activeModel = document.querySelector('.segmented-control button.active').dataset.model;
+      formData.append('model', activeModel);
+
+      try {
+        // Send request to backend
+        const res = await fetch("/ask", {
+          method: "POST",
+          body: formData
+        });
+
+        if (!res.ok) {
+          const errorData = await res.json();
+          throw new Error(errorData.response || `HTTP error! status: ${res.status}`);
+        }
+
+        const data = await res.json();
+        
+        // Remove typing indicator
+        typingIndicator.remove();
+
+        // Add bot response
+        const botMsg = document.createElement("div");
+        botMsg.className = "msg bot";
+        botMsg.innerHTML = `
+          <div class="msg-header">
+            <div class="avatar bot-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <span>MedAssist AI</span>
+          </div>
+          <div class="msg-content">
+            <p>${data.response}</p>
+          </div>
+        `;
+        chatbox.appendChild(botMsg);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      } catch (err) {
+        // Remove typing indicator
+        typingIndicator.remove();
+        
+        // Show error message
+        const errorMsg = document.createElement("div");
+        errorMsg.className = "msg bot";
+        errorMsg.innerHTML = `
+          <div class="msg-header">
+            <div class="avatar bot-avatar">
+              <i class="fas fa-robot"></i>
+            </div>
+            <span>MedAssist AI</span>
+          </div>
+          <div class="msg-content">
+            <p>Error: ${err.message || 'Failed to get response. Please try again.'}</p>
+          </div>
+        `;
+        chatbox.appendChild(errorMsg);
+        chatbox.scrollTop = chatbox.scrollHeight;
+      }
+
+      // Clear input
+      document.getElementById("question").value = "";
+    };
+
+    // Initialize with dark mode if preferred
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add("dark");
+      document.querySelector('.toggle-dark').innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+      document.querySelector('.toggle-dark').classList.remove('btn-outline');
+      document.querySelector('.toggle-dark').classList.add('btn-secondary');
+    }
+  </script>
+</body>
+</html>
