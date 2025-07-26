@@ -1,16 +1,19 @@
+import faiss
 import pickle
-import numpy as np
+import os
 
-def load_vector_store():
-    with open("vectorstore/index.pkl", "rb") as f:
-        return pickle.load(f)
+VECTOR_INDEX_PATH = "vectorstore/index.pkl"
+CHUNK_MAP_PATH = "vectorstore/chunk_map.pkl"
 
-def search_similar_chunks(query_embedding, vector_store, top_k=3):
-    scores = [(chunk, cosine_similarity(query_embedding, emb))
-              for chunk, emb in vector_store]
-    return sorted(scores, key=lambda x: x[1], reverse=True)[:top_k]
+def load_vector_index():
+    if not os.path.exists(VECTOR_INDEX_PATH) or not os.path.exists(CHUNK_MAP_PATH):
+        raise Exception("Vector index or chunk map file not found.")
+    with open(VECTOR_INDEX_PATH, "rb") as f:
+        index = pickle.load(f)
+    with open(CHUNK_MAP_PATH, "rb") as f:
+        chunk_map = pickle.load(f)
+    return index, chunk_map
 
-def cosine_similarity(vec1, vec2):
-    vec1 = np.array(vec1)
-    vec2 = np.array(vec2)
-    return np.dot(vec1, vec2) / (np.linalg.norm(vec1) * np.linalg.norm(vec2))
+def search_similar_chunks(index, chunk_map, embedded_query, k=3):
+    scores, indices = index.search(embedded_query.reshape(1, -1), k)
+    return [chunk_map[i] for i in indices[0]]
